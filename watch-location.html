@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>RETURN LOCATION</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 5px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .alert {
+            font-size: 24px;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .alert > div {
+            padding: 5px;
+            box-sizing: border-box;
+            line-height: 32px;
+        }
+    </style>
+<body>
+    <div id="navig" class="alert">
+    </div>
+    
+    <script>
+
+        const geo = navigator.geolocation;
+
+        if (!geo) {
+            console.error('Your browser can\'t use geolocation!');
+        } else {
+            function success(position) {
+                // position - объект GeolocationPosition, содержащий информацию о местонахождении
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                const altitude = position.coords.altitude;
+                const speed = position.coords.speed;
+                document.getElementById("navig").innerHTML += `<div><b>Широта : </b>${latitude}°</div>`;
+                document.getElementById("navig").innerHTML += `<div><b>Долгота : </b>${longitude}°</div>`;
+                document.getElementById("navig").innerHTML += `<div><b>Высота над уровнем моря : </b>${altitude}м</div>`;
+                document.getElementById("navig").innerHTML += `<div><b>Скорость : </b>${speed}м/c</div>`;
+            }
+            function error() {
+                document.getElementById("navig").innerHTML = 'Произошла ошибка при определении местоположения!';
+            }
+            navigator.geolocation.watchPosition(success, error);
+            clearWatch(watchId);
+        }
+
+    </script>
+</body>
+</html>
